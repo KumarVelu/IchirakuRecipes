@@ -2,13 +2,14 @@ package com.bakingapp.velu.ichirakurecipes.modal;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Velu on 13/07/17.
  */
 
-public class Recipe {
+public class Recipe implements Serializable{
 
     @SerializedName("id")
     private int mId;

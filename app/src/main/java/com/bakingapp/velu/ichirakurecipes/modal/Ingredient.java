@@ -2,11 +2,13 @@ package com.bakingapp.velu.ichirakurecipes.modal;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Velu on 14/07/17.
  */
 
-public class Ingredient {
+public class Ingredient implements Serializable{
 
     @SerializedName("ingredient")
     private String mName;
@@ -46,5 +48,9 @@ public class Ingredient {
                 ", mQuantity=" + mQuantity +
                 ", mMeasure='" + mMeasure + '\'' +
                 '}';
+    }
+
+    public static String getName(){
+        return Ingredient.class.getSimpleName();
     }
 }
