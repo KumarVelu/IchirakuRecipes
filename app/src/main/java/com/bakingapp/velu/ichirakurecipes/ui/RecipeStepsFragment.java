@@ -2,6 +2,7 @@ package com.bakingapp.velu.ichirakurecipes.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -84,10 +85,10 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.I
     @Override
     public void onRecipeStepClick(int index) {
         Log.i(TAG, "onRecipeStepClick: " + index);
-        RecipeVideoTabFragment videoTabFragment = RecipeVideoTabFragment.newInstance(mRecipeSteps, index);
-        getFragmentManager().beginTransaction()
-                .add(R.id.frame, videoTabFragment)
-                .addToBackStack(null)
-                .commit();
+
+        Intent intent = new Intent(mContext, InstructionActivity.class);
+        intent.putExtra(RECIPE_STEP_LIST, (Serializable) mRecipeSteps);
+        intent.putExtra("selectedIndex", index);
+        startActivity(intent);
     }
 }

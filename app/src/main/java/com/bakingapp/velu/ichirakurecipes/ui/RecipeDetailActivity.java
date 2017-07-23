@@ -22,7 +22,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
         RecipeDetailFragment detailFragment = RecipeDetailFragment.newInstance(recipe);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame, detailFragment)
-                .addToBackStack(null)
                 .commit();
     }
 }
