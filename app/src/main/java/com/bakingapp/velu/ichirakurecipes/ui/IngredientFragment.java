@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.adpater.IngredientListAdapter;
@@ -24,27 +25,32 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IngredientFragment extends BaseFragment {
+public class IngredientFragment extends Fragment {
 
+    @BindView(R.id.no_of_servings)
+    TextView mNoOfServingsText;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
     private static final String TAG = IngredientFragment.class.getSimpleName();
     public static final String TAB_NAME = "Ingredient";
     public static final String INGREDIENT_LIST = "ingredientList";
+    public static final String NO_OF_SERVINGS = "noOfServings";
 
     private Context mContext;
     private List<Ingredient> mIngredientList;
     private IngredientListAdapter mIngredientListAdapter;
+    private int mServingNo;
 
     public IngredientFragment() {
         // Required empty public constructor
     }
 
-    public static IngredientFragment newInstance(List<Ingredient> ingredientList) {
+    public static IngredientFragment newInstance(List<Ingredient> ingredientList, int servingsNo) {
 
         Bundle args = new Bundle();
         args.putSerializable(INGREDIENT_LIST, (Serializable) ingredientList);
+        args.putInt(NO_OF_SERVINGS, servingsNo);
         IngredientFragment fragment = new IngredientFragment();
         fragment.setArguments(args);
         return fragment;
@@ -56,6 +62,7 @@ public class IngredientFragment extends BaseFragment {
         mContext = getActivity();
         if(getArguments() != null){
             mIngredientList = (List<Ingredient>) getArguments().getSerializable(INGREDIENT_LIST);
+            mServingNo = getArguments().getInt(NO_OF_SERVINGS);
         }
     }
 
@@ -75,6 +82,8 @@ public class IngredientFragment extends BaseFragment {
     }
 
     private void initializeUi() {
+
+        String noOfServings = getString(R.string.no_of_servings) + " " + mServingNo;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mIngredientListAdapter = new IngredientListAdapter(mContext, mIngredientList);
         mRecyclerView.setAdapter(mIngredientListAdapter);

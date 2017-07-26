@@ -10,11 +10,11 @@
     <!--content description-->
     <string name="recipe_image_cd">Recipe Image</string>
 
-    <string name="no_of_servings">No of Servings</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
     <string name="no_internet">No Internet Connection!</string>
     <string name="no_fav">No Recipe is marked as favourite</string>
     <string name="added_fav">Added to favourite</string>
+    <string name="no_of_servings">No of servings - </string>
 </resources>

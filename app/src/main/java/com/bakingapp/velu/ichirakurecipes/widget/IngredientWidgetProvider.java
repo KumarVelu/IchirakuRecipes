@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.bakingapp.velu.ichirakurecipes.Constants;
@@ -16,12 +15,9 @@ import com.bakingapp.velu.ichirakurecipes.R;
  */
 public class IngredientWidgetProvider extends AppWidgetProvider {
 
-    private static final String TAG = IngredientWidgetProvider.class.getSimpleName();
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
-        Log.i(TAG, "updateAppWidget: ");
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredient_widget_provider);

@@ -30,7 +30,6 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.I
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    public static final String TAG = RecipeStepsFragment.class.getSimpleName();
     public static final String TAB_NAME = "Steps";
     public static final String RECIPE_STEP_LIST = "recipeStepList";
     private RecipeStepAdapter mRecipeStepAdapter;

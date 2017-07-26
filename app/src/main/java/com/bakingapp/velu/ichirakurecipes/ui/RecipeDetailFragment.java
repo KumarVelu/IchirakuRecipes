@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeDetailFragment extends BaseFragment implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class RecipeDetailFragment extends Fragment implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = RecipeDetailFragment.class.getSimpleName();
     @BindView(R.id.toolbar)
@@ -110,7 +110,7 @@ public class RecipeDetailFragment extends BaseFragment implements View.OnClickLi
 
     private void setUpViewPager() {
         IngredientViewPagerAdapter viewPagerAdapter = new IngredientViewPagerAdapter(getFragmentManager());
-        viewPagerAdapter.addFragment(IngredientFragment.newInstance(mRecipe.getmIngredientList()),
+        viewPagerAdapter.addFragment(IngredientFragment.newInstance(mRecipe.getmIngredientList(), mRecipe.getmServings()),
                 IngredientFragment.TAB_NAME);
         viewPagerAdapter.addFragment(RecipeStepsFragment.newInstance(mRecipe.getmRecipeSteps(), mDualPane),
                 RecipeStepsFragment.TAB_NAME);
