@@ -37,9 +37,11 @@ public class IngredientListProvider implements RemoteViewsService.RemoteViewsFac
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         Gson gson = new Gson();
         String jsonStr = sp.getString(Constants.INGREDIENT_KEY, null);
-        Type type = new TypeToken<List<Ingredient>>(){}.getType();
 
-        mIngredientList = gson.fromJson(jsonStr, type);
+        if(jsonStr != null){
+            Type type = new TypeToken<List<Ingredient>>(){}.getType();
+            mIngredientList = gson.fromJson(jsonStr, type);
+        }
     }
 
     @Override

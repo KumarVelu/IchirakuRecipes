@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -80,12 +78,5 @@ public class IngredientFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mIngredientListAdapter = new IngredientListAdapter(mContext, mIngredientList);
         mRecyclerView.setAdapter(mIngredientListAdapter);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getActivity().getBaseContext(),
-                R.drawable.custom_divider));
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
-
     }
 }

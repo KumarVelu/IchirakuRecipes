@@ -2,7 +2,7 @@ package com.bakingapp.velu.ichirakurecipes.adpater;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import com.bakingapp.velu.ichirakurecipes.modal.RecipeStep;
 import com.bakingapp.velu.ichirakurecipes.ui.RecipeVideoFragment;
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Velu on 16/07/17.
  */
 
-public class RecipeVideoViewPagerAdapter extends FragmentStatePagerAdapter {
+public class RecipeVideoViewPagerAdapter extends FragmentPagerAdapter {
 
     private List<RecipeStep> mRecipeSteps;
 

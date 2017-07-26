@@ -58,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/no_internet"
             android:layout_centerInParent="true"
-            android:text="@string/btn_retry"/>
+            android:text="@string/btn_retry"
+            android:onClick="onClick"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

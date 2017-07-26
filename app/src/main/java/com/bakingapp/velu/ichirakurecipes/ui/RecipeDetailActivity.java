@@ -9,17 +9,25 @@ import com.bakingapp.velu.ichirakurecipes.modal.Recipe;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
+    private boolean mDualPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
-        loadRecipeDetailFragment();
+
+        if (findViewById(R.id.video_frame) != null) {
+            mDualPane = true;
+        }
+
+        if (savedInstanceState == null)
+            loadRecipeDetailFragment();
     }
 
-    private void loadRecipeDetailFragment(){
+    private void loadRecipeDetailFragment() {
         Recipe recipe = (Recipe) getIntent().getSerializableExtra(RecipeListActivity.RECIPE);
 
-        RecipeDetailFragment detailFragment = RecipeDetailFragment.newInstance(recipe);
+        RecipeDetailFragment detailFragment = RecipeDetailFragment.newInstance(recipe, mDualPane);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame, detailFragment)
                 .commit();

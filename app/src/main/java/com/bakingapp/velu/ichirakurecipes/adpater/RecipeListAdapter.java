@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.modal.Recipe;
+import com.bakingapp.velu.ichirakurecipes.util.Utils;
 
 import java.util.List;
 
@@ -44,7 +45,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     @Override
     public void onBindViewHolder(RecipeListViewHolder holder, final int position) {
-        holder.recipeName.setText(mRecipeList.get(position).getmName());
+        String recipeName = mRecipeList.get(position).getmName();
+        holder.recipeName.setText(recipeName);
+        holder.recipeImage.setImageResource(Utils.getImageByName(recipeName));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

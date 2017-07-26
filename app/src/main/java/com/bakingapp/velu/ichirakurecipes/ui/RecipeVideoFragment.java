@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeVideoFragment extends BaseFragment {
+public class RecipeVideoFragment extends Fragment {
 
     @BindView(R.id.playerview)
     SimpleExoPlayerView mSimpleExoPlayerView;

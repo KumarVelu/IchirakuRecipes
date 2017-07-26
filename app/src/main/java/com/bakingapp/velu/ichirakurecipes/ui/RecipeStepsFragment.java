@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +35,11 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.I
     public static final String RECIPE_STEP_LIST = "recipeStepList";
     private RecipeStepAdapter mRecipeStepAdapter;
 
+    private static final String DUAL_PANE_KEY = "dualPane";
+
     private Context mContext;
     private List<RecipeStep> mRecipeSteps;
+    private boolean mDualPane;
 
     public RecipeStepsFragment() {
         // Required empty public constructor
@@ -49,12 +51,14 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.I
         mContext = getActivity();
         if(getArguments() != null){
             mRecipeSteps = (List<RecipeStep>) getArguments().getSerializable(RECIPE_STEP_LIST);
+            mDualPane = getArguments().getBoolean(DUAL_PANE_KEY);
         }
     }
 
-    public static RecipeStepsFragment newInstance(List<RecipeStep> recipeStepList) {
+    public static RecipeStepsFragment newInstance(List<RecipeStep> recipeStepList, boolean dualPane) {
         Bundle args = new Bundle();
         args.putSerializable(RECIPE_STEP_LIST, (Serializable) recipeStepList);
+        args.putSerializable(DUAL_PANE_KEY, dualPane);
         RecipeStepsFragment fragment = new RecipeStepsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -84,11 +88,17 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.I
 
     @Override
     public void onRecipeStepClick(int index) {
-        Log.i(TAG, "onRecipeStepClick: " + index);
-
-        Intent intent = new Intent(mContext, InstructionActivity.class);
-        intent.putExtra(RECIPE_STEP_LIST, (Serializable) mRecipeSteps);
-        intent.putExtra("selectedIndex", index);
-        startActivity(intent);
+        if(mDualPane){
+            RecipeVideoFragment videoFragment = RecipeVideoFragment.newInstance(mRecipeSteps.get(index));
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.video_frame, videoFragment)
+                    .commit();
+        }
+        else{
+            Intent intent = new Intent(mContext, InstructionActivity.class);
+            intent.putExtra(RECIPE_STEP_LIST, (Serializable) mRecipeSteps);
+            intent.putExtra("selectedIndex", index);
+            startActivity(intent);
+        }
     }
 }
