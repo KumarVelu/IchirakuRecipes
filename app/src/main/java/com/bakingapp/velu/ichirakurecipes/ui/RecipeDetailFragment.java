@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,7 +117,7 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
         mTabLayout.setupWithViewPager(mViewPager);
         mFavFab.setOnClickListener(this);
 
-        if(!mRecipe.getmImage().trim().equals("")){
+        if(!TextUtils.isEmpty(mRecipe.getmName())){
             Picasso.with(mContext)
                     .load(mRecipe.getmImage())
                     .placeholder(Utils.getImageByName(mRecipe.getmName()))

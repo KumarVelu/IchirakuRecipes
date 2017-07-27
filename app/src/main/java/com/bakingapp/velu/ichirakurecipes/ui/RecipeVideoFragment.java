@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.modal.RecipeStep;
@@ -51,6 +52,7 @@ public class RecipeVideoFragment extends Fragment {
     private Context mContext;
     private SimpleExoPlayer mExoPlayer;
     private RecipeStep mRecipeStep;
+    private boolean mShouldAutoPlay;
 
     public RecipeVideoFragment() {
         // Required empty public constructor
@@ -71,6 +73,12 @@ public class RecipeVideoFragment extends Fragment {
         if (getArguments() != null) {
             mRecipeStep = (RecipeStep) getArguments().getSerializable(RECIPE_STEP);
         }
+        mShouldAutoPlay = true;
+        showSwipeToast();
+    }
+
+    private void showSwipeToast() {
+        Toast.makeText(mContext, getString(R.string.swipe_left_right), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -113,7 +121,7 @@ public class RecipeVideoFragment extends Fragment {
                         mContext, userAgent), new DefaultExtractorsFactory(), null, null);
 
                 mExoPlayer.prepare(mediaSource);
-                mExoPlayer.setPlayWhenReady(true);
+                mExoPlayer.setPlayWhenReady(mShouldAutoPlay);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -127,9 +135,12 @@ public class RecipeVideoFragment extends Fragment {
     }
 
     private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if(mExoPlayer != null){
+            mShouldAutoPlay = mExoPlayer.getPlayWhenReady();
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 
 }

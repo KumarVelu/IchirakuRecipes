@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.adpater.RecipeListAdapter;
@@ -102,6 +103,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
 
                 @Override
                 public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                    showDefaultError();
                 }
             });
         }else{
@@ -110,6 +112,10 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
             mSwipeRefreshLayout.setRefreshing(false);
 
         }
+    }
+
+    private void showDefaultError() {
+        Toast.makeText(this, getString(R.string.error_default), Toast.LENGTH_SHORT).show();
     }
 
     private void setUiWithRecipeList(List<Recipe> recipeList) {

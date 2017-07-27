@@ -6,9 +6,12 @@
 
     <!--error messagesa-->
     <string name="error_no_internet">No Internet Connection!</string>
+    <string name="error_default">Oops! Something went wrong please try agian later</string>
 
     <!--content description-->
     <string name="recipe_image_cd">Recipe Image</string>
+
+    <string name="swipe_left_right">Swipe Left/Right to move Previous/Next Step</string>
 
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>

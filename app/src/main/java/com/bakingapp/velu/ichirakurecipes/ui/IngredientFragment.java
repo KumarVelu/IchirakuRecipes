@@ -3,6 +3,7 @@ package com.bakingapp.velu.ichirakurecipes.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +42,9 @@ public class IngredientFragment extends Fragment {
     private List<Ingredient> mIngredientList;
     private IngredientListAdapter mIngredientListAdapter;
     private int mServingNo;
+    private LinearLayoutManager mLinearLayoutManager;
+    public static final String LIST_STATE_KEY = "listState";
+    private Parcelable mListState;
 
     public IngredientFragment() {
         // Required empty public constructor
@@ -84,8 +88,33 @@ public class IngredientFragment extends Fragment {
     private void initializeUi() {
 
         String noOfServings = getString(R.string.no_of_servings) + " " + mServingNo;
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mNoOfServingsText.setText(noOfServings);
+        mLinearLayoutManager = new LinearLayoutManager(mContext);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mIngredientListAdapter = new IngredientListAdapter(mContext, mIngredientList);
         mRecyclerView.setAdapter(mIngredientListAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mListState != null){
+            mLinearLayoutManager.onRestoreInstanceState(mListState);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mListState = mLinearLayoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, mListState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null){
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
     }
 }
