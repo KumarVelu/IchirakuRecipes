@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.modal.Recipe;
 import com.bakingapp.velu.ichirakurecipes.util.Utils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,9 +46,19 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     @Override
     public void onBindViewHolder(RecipeListViewHolder holder, final int position) {
-        String recipeName = mRecipeList.get(position).getmName();
+        Recipe recipe = mRecipeList.get(position);
+        String recipeName = recipe.getmName();
         holder.recipeName.setText(recipeName);
-        holder.recipeImage.setImageResource(Utils.getImageByName(recipeName));
+
+        if(!recipe.getmImage().trim().equals("")){
+            Picasso.with(mContext)
+                    .load(recipe.getmImage())
+                    .placeholder(Utils.getImageByName(recipeName))
+                    .error(Utils.getDefaultRecipeImage())
+                    .into(holder.recipeImage);
+        }else{
+            holder.recipeImage.setImageResource(Utils.getImageByName(recipeName));
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

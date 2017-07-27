@@ -40,4 +40,8 @@ public class Utils {
         return resId;
     }
 
+    public static int getDefaultRecipeImage(){
+        return R.mipmap.food;
+    }
+
 }
