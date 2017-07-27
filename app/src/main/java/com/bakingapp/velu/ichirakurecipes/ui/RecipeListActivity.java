@@ -2,6 +2,7 @@ package com.bakingapp.velu.ichirakurecipes.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,12 +44,15 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
     @BindView(R.id.no_internet_layout)
     RelativeLayout mNoInternetLayout;
 
+    private GridLayoutManager mGridLayoutManager;
     private RecipeListAdapter mRecipeListAdapter;
     private List<Recipe> mRecipeList;
+    private Parcelable mListState;
 
     private static final String TAG = RecipeListActivity.class.getSimpleName();
     public static final String RECIPE = "recipe";
     public static final String RECIPE_LIST = "recipeList";
+    public static final String LIST_STATE_KEY = "listState";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,17 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
     private void initialize() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mRecipeListAdapter = new RecipeListAdapter(this);
-        mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mGridLayoutManager = new GridLayoutManager(this, 2);
+        mRecipeRecyclerView.setLayoutManager(mGridLayoutManager);
         mRecipeRecyclerView.setAdapter(mRecipeListAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mListState != null){
+            mGridLayoutManager.onRestoreInstanceState(mListState);
+        }
     }
 
     private void getRecipeList() {
@@ -136,7 +149,17 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState: mRecipeList " + mRecipeList);
         outState.putSerializable(RECIPE_LIST, (Serializable) mRecipeList);
+        mListState = mGridLayoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, mListState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if(savedInstanceState != null){
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
     }
 }
