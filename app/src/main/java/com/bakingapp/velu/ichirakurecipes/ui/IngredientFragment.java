@@ -29,7 +29,7 @@ public class IngredientFragment extends Fragment {
 
     @BindView(R.id.no_of_servings)
     TextView mNoOfServingsText;
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.ingredient_recyclerView)
     RecyclerView mRecyclerView;
 
     private static final String TAG = IngredientFragment.class.getSimpleName();

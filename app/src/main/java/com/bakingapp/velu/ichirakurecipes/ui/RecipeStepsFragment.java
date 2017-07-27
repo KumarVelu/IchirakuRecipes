@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  */
 public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.IOnRecipeStepClickListener{
 
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.steps_recyclerView)
     RecyclerView mRecyclerView;
 
     public static final String TAB_NAME = "Steps";

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,14 +19,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bakingapp.velu.ichirakurecipes.Constants;
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.adpater.IngredientViewPagerAdapter;
 import com.bakingapp.velu.ichirakurecipes.modal.Recipe;
+import com.bakingapp.velu.ichirakurecipes.util.Utils;
 import com.bakingapp.velu.ichirakurecipes.widget.IngredientWidgetProvider;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +40,9 @@ import butterknife.ButterKnife;
 public class RecipeDetailFragment extends Fragment implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = RecipeDetailFragment.class.getSimpleName();
+
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.viewPager)
@@ -44,6 +51,8 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     TabLayout mTabLayout;
     @BindView(R.id.favFab)
     FloatingActionButton mFavFab;
+    @BindView(R.id.recipe_image)
+    ImageView mRecipeImageView;
 
     private static final String DUAL_PANE_KEY = "dualPane";
     private SharedPreferences mSharedPreferences;
@@ -95,7 +104,7 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     }
 
     private void initializeUi() {
-        mToolbar.setTitle(mRecipe.getmName());
+        mCollapsingToolbarLayout.setTitle(mRecipe.getmName());
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +115,17 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
         setUpViewPager();
         mTabLayout.setupWithViewPager(mViewPager);
         mFavFab.setOnClickListener(this);
+
+        if(!mRecipe.getmImage().trim().equals("")){
+            Picasso.with(mContext)
+                    .load(mRecipe.getmImage())
+                    .placeholder(Utils.getImageByName(mRecipe.getmName()))
+                    .error(Utils.getDefaultRecipeImage())
+                    .into(mRecipeImageView);
+        }else{
+            mRecipeImageView.setImageResource(Utils.getImageByName(mRecipe.getmName()));
+        }
+
     }
 
     private void setUpViewPager() {
