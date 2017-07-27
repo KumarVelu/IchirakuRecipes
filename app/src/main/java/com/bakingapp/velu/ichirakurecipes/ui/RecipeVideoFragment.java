@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.modal.RecipeStep;
+import com.bakingapp.velu.ichirakurecipes.util.NetworkUtils;
+import com.bakingapp.velu.ichirakurecipes.util.Utils;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -25,6 +27,8 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +68,7 @@ public class RecipeVideoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-        if(getArguments() != null){
+        if (getArguments() != null) {
             mRecipeStep = (RecipeStep) getArguments().getSerializable(RECIPE_STEP);
         }
     }
@@ -91,21 +95,28 @@ public class RecipeVideoFragment extends Fragment {
         mDescription.setText(mRecipeStep.getmDescription());
     }
 
-    private void initializePlayer(Uri mediaUri){
-        if(mExoPlayer == null){
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
+    private void initializePlayer(Uri mediaUri) {
+        if (mExoPlayer == null) {
+            try {
+                TrackSelector trackSelector = new DefaultTrackSelector();
+                LoadControl loadControl = new DefaultLoadControl();
 
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector, loadControl);
-            mSimpleExoPlayerView.setPlayer(mExoPlayer);
+                mExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector, loadControl);
+                if (!mRecipeStep.getmThumbnailUrl().trim().equals("") && NetworkUtils.isInternetOn(mContext)) {
+                    mSimpleExoPlayerView.setDefaultArtwork(Utils.getBitmapFromUrl(mRecipeStep.getmThumbnailUrl()));
+                }
+                mSimpleExoPlayerView.setPlayer(mExoPlayer);
 
-            String userAgent = Util.getUserAgent(mContext, "IchirakuRecipe");
+                String userAgent = Util.getUserAgent(mContext, "IchirakuRecipe");
 
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    mContext, userAgent), new DefaultExtractorsFactory(), null, null);
+                MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+                        mContext, userAgent), new DefaultExtractorsFactory(), null, null);
 
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+                mExoPlayer.prepare(mediaSource);
+                mExoPlayer.setPlayWhenReady(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -115,7 +126,7 @@ public class RecipeVideoFragment extends Fragment {
         releasePlayer();
     }
 
-    private void releasePlayer(){
+    private void releasePlayer() {
         mExoPlayer.stop();
         mExoPlayer.release();
         mExoPlayer = null;
