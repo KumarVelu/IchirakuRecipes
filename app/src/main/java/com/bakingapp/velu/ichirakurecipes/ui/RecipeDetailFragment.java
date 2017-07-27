@@ -117,7 +117,7 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
         mTabLayout.setupWithViewPager(mViewPager);
         mFavFab.setOnClickListener(this);
 
-        if(!TextUtils.isEmpty(mRecipe.getmName())){
+        if(!TextUtils.isEmpty(mRecipe.getmImage())){
             Picasso.with(mContext)
                     .load(mRecipe.getmImage())
                     .placeholder(Utils.getImageByName(mRecipe.getmName()))
