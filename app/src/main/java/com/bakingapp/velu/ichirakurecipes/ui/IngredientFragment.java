@@ -93,14 +93,7 @@ public class IngredientFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mIngredientListAdapter = new IngredientListAdapter(mContext, mIngredientList);
         mRecyclerView.setAdapter(mIngredientListAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(mListState != null){
-            mLinearLayoutManager.onRestoreInstanceState(mListState);
-        }
+        restoreLayoutManagerPosition();
     }
 
     @Override
@@ -115,6 +108,12 @@ public class IngredientFragment extends Fragment {
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null){
             mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+    }
+
+    private void restoreLayoutManagerPosition(){
+        if(mListState != null){
+            mLinearLayoutManager.onRestoreInstanceState(mListState);
         }
     }
 }

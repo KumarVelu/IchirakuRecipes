@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.modal.RecipeStep;
@@ -74,11 +73,6 @@ public class RecipeVideoFragment extends Fragment {
             mRecipeStep = (RecipeStep) getArguments().getSerializable(RECIPE_STEP);
         }
         mShouldAutoPlay = true;
-        showSwipeToast();
-    }
-
-    private void showSwipeToast() {
-        Toast.makeText(mContext, getString(R.string.swipe_left_right), Toast.LENGTH_SHORT).show();
     }
 
     @Override

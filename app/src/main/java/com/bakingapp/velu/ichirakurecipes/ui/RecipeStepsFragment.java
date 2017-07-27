@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bakingapp.velu.ichirakurecipes.R;
 import com.bakingapp.velu.ichirakurecipes.adpater.RecipeStepAdapter;
@@ -87,6 +88,7 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.I
 
     @Override
     public void onRecipeStepClick(int index) {
+        showSwipeToast();
         if(mDualPane){
             RecipeVideoFragment videoFragment = RecipeVideoFragment.newInstance(mRecipeSteps.get(index));
             getFragmentManager().beginTransaction()
@@ -99,5 +101,9 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepAdapter.I
             intent.putExtra("selectedIndex", index);
             startActivity(intent);
         }
+    }
+
+    private void showSwipeToast() {
+        Toast.makeText(mContext, getString(R.string.swipe_left_right), Toast.LENGTH_SHORT).show();
     }
 }

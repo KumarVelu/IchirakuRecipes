@@ -10,6 +10,8 @@ import java.util.List;
 
 public class InstructionActivity extends AppCompatActivity {
 
+    private static final String TAG = InstructionActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,7 @@ public class InstructionActivity extends AppCompatActivity {
     private void loadVideoFragment(){
         List<RecipeStep> recipeSteps = (List<RecipeStep>) getIntent()
                 .getSerializableExtra(RecipeStepsFragment.RECIPE_STEP_LIST);
-        int selectedIndex = getIntent().getIntExtra("selectedIndex", 0);
+        int selectedIndex = getIntent().getIntExtra("selectedIndex", -1);
 
         RecipeVideoTabFragment videoTabFragment = RecipeVideoTabFragment.newInstance(recipeSteps, selectedIndex);
         getSupportFragmentManager().beginTransaction()
