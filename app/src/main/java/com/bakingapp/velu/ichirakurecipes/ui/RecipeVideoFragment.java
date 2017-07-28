@@ -104,6 +104,11 @@ public class RecipeVideoFragment extends Fragment {
             mShortDesc.setText(mRecipeStep.getmShortDescription());
             mDescription.setText(mRecipeStep.getmDescription());
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initializePlayer(Uri.parse(mRecipeStep.getmVideoUrl()));
     }
 
