@@ -16,11 +16,13 @@ public class InstructionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction);
-        loadVideoFragment();
+
+        if (savedInstanceState == null)
+            loadVideoFragment();
     }
 
     @SuppressWarnings("unchecked")
-    private void loadVideoFragment(){
+    private void loadVideoFragment() {
         List<RecipeStep> recipeSteps = (List<RecipeStep>) getIntent()
                 .getSerializableExtra(RecipeStepsFragment.RECIPE_STEP_LIST);
         int selectedIndex = getIntent().getIntExtra("selectedIndex", -1);

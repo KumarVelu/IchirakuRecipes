@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +41,8 @@ public class RecipeVideoFragment extends Fragment {
 
     @BindView(R.id.playerview)
     SimpleExoPlayerView mSimpleExoPlayerView;
-    @BindView(R.id.short_desc)
+
     TextView mShortDesc;
-    @BindView(R.id.description)
     TextView mDescription;
 
     public static final String TAG = RecipeVideoFragment.class.getSimpleName();
@@ -52,6 +52,7 @@ public class RecipeVideoFragment extends Fragment {
     private SimpleExoPlayer mExoPlayer;
     private RecipeStep mRecipeStep;
     private boolean mShouldAutoPlay;
+    private boolean mIsPortrait;
 
     public RecipeVideoFragment() {
         // Required empty public constructor
@@ -67,6 +68,7 @@ public class RecipeVideoFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         mContext = getActivity();
         if (getArguments() != null) {
@@ -81,6 +83,12 @@ public class RecipeVideoFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_recipe_video, container, false);
         ButterKnife.bind(this, rootView);
+
+        if(rootView.findViewById(R.id.short_desc) != null){
+            mIsPortrait = true;
+            mShortDesc = (TextView) rootView.findViewById(R.id.short_desc);
+            mDescription = (TextView) rootView.findViewById(R.id.description);
+        }
         return rootView;
     }
 
@@ -91,10 +99,12 @@ public class RecipeVideoFragment extends Fragment {
     }
 
     private void initializeUi() {
-        initializePlayer(Uri.parse(mRecipeStep.getmVideoUrl()));
 
-        mShortDesc.setText(mRecipeStep.getmShortDescription());
-        mDescription.setText(mRecipeStep.getmDescription());
+        if(mIsPortrait){
+            mShortDesc.setText(mRecipeStep.getmShortDescription());
+            mDescription.setText(mRecipeStep.getmDescription());
+        }
+        initializePlayer(Uri.parse(mRecipeStep.getmVideoUrl()));
     }
 
     private void initializePlayer(Uri mediaUri) {
